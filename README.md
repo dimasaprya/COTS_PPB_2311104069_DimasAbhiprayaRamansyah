@@ -35,20 +35,132 @@ Once the images are in place, you can view them below. If the files are not pres
 
 ![Tambah Resep](screenshots/tambah_resep.png)
 
-# Dokumentasi Aplikasi "Resep Masakan"
+# Resep Masakan — Dokumentasi Singkat
 
-Dokumentasi ini berisi petunjuk singkat penggunaan repository, tempat menaruh screenshot, struktur folder yang direkomendasikan, dan saran state management untuk aplikasi Flutter "Resep Masakan".
+Terima kasih telah membuka repository aplikasi "Resep Masakan".
 
-> Catatan: untuk menampilkan screenshot pada README, silakan salin gambar screenshot (dari lampiran atau hasil capture) ke folder `docs/screenshots/` dengan nama file persis seperti yang direkomendasikan di bawah.
+README ini berisi:
 
-## Nama file screenshot (letakkan di `docs/screenshots/`)
+- Instruksi menambahkan screenshot aplikasi yang digunakan oleh dokumentasi.
+- Gambaran struktur folder yang direkomendasikan.
+- Saran state management yang cocok untuk aplikasi ini.
 
-- `docs/screenshots/dashboard.png` — layar Dashboard
-- `docs/screenshots/daftar_resep.png` — layar Daftar Resep
-- `docs/screenshots/detail_resep.png` — layar Detail Resep
-- `docs/screenshots/tambah_resep.png` — layar Tambah Resep / Tambah Tugas
+Pastikan menaruh screenshot pada folder `docs/screenshots/` dengan nama file yang tepat agar gambar ditampilkan di README.
 
-Format yang disarankan: PNG. Resolusi: mobile screenshot (pertahankan aspect ratio).
+---
+
+## Tampilan / Screenshot
+
+Letakkan screenshot (format PNG) ke folder `docs/screenshots/` dengan nama-nama berikut:
+
+- `dashboard.png` — layar Dashboard
+- `daftar_resep.png` — layar Daftar Resep
+- `detail_resep.png` — layar Detail Resep
+- `tambah_resep.png` — layar Tambah Resep / Tambah Tugas
+
+Contoh path akhir (harus persis): `docs/screenshots/dashboard.png` dan seterusnya.
+
+Jika gambar sudah ada, akan tampil di sini:
+
+### Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Daftar Resep
+
+![Daftar Resep](docs/screenshots/daftar_resep.png)
+
+### Detail Resep
+
+![Detail Resep](docs/screenshots/detail_resep.png)
+
+### Tambah Resep / Tambah Tugas
+
+![Tambah Resep](docs/screenshots/tambah_resep.png)
+
+---
+
+## Deskripsi singkat aplikasi
+
+Aplikasi "Resep Masakan" adalah aplikasi mobile sederhana untuk menyimpan, menampilkan, dan mengelola resep makanan. Fitur utama yang terlihat pada tampilan adalah:
+
+- Dashboard: ringkasan jumlah resep per kategori.
+- Daftar Resep: daftar resep dengan filter dan pencarian.
+- Detail Resep: menampilkan bahan dan langkah pembuatan.
+- Tambah Resep: form untuk menambah resep baru.
+
+---
+
+## Struktur folder (disarankan)
+
+Struktur yang direkomendasikan untuk `lib/`:
+
+- `lib/main.dart` — entry point aplikasi
+- `lib/presentation/`
+  - `pages/` — layar (Dashboard, DaftarResep, DetailResep, TambahResep)
+  - `widgets/` — komponen UI yang dapat dipakai ulang
+- `lib/models/` — model domain (contoh: `recipe.dart`)
+- `lib/services/` — layanan/data source (contoh: `recipe_service.dart`)
+- `lib/design_system/` — warna, spacing, typography (contoh: `colors.dart`)
+
+Struktur ini memisahkan tampilan, model, dan layanan sehingga memudahkan pemeliharaan dan testing.
+
+---
+
+## Saran State Management
+
+Beberapa opsi yang sesuai beserta rekomendasi:
+
+1. Provider + ChangeNotifier
+  - Mudah dan cepat untuk aplikasi kecil.
+2. Riverpod
+  - Lebih scalable dan mudah di-test; cocok jika aplikasi dikehendaki berkembang.
+3. Bloc / Cubit
+  - Cocok untuk alur yang kompleks dan kebutuhan pemisahan event/state yang ketat.
+
+Rekomendasi praktis: gunakan Provider untuk prototipe/penugasan cepat. Jika proyek akan berkembang, gunakan Riverpod.
+
+---
+
+## Contoh kontrak singkat (inputs/outputs)
+
+- Inputs: aksi pengguna (tambah resep, cari, filter), input form.
+- Outputs: perubahan UI (daftar, jumlah per kategori), navigasi, penyimpanan data.
+- Error modes: validasi form, kegagalan simpan data.
+
+---
+
+## Petunjuk menambahkan screenshot
+
+1. Buat/temukan screenshot aplikasi (format PNG).
+2. Salin ke folder `docs/screenshots/` dengan nama sesuai (contoh: `dashboard.png`).
+3. Commit dan push perubahan, README akan menampilkan gambar.
+
+Contoh perintah git (jalankan di direktori project):
+
+```bash
+git add docs/screenshots/* README.md
+git commit -m "docs: add screenshots and update README"
+git push origin main
+```
+
+---
+
+## Testing & Edge cases singkat
+
+- Tampilkan empty state saat list kosong.
+- Gunakan `ListView.builder` untuk daftar panjang.
+- Validasi input pada form tambah resep (judul & kategori minimal).
+
+---
+
+Jika Anda mau, saya bisa:
+
+- Menambahkan contoh `RecipesProvider` sederhana di `lib/presentation/providers/`.
+- Membuat unit test kecil untuk provider.
+- Commit perubahan README + placeholder screenshot files sekarang.
+
+Silakan beri tahu langkah berikutnya.
 
 ---
 
