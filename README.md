@@ -21,19 +21,19 @@ Once the images are in place, you can view them below. If the files are not pres
 
 ## Dashboard
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](docs/screenshots/dashboard.png)
 
 ## Daftar Resep
 
-![Daftar Resep](screenshots/daftar_resep.png)
+![Daftar Resep](docs/screenshots/daftar_resep.png)
 
 ## Detail Resep
 
-![Detail Resep](screenshots/detail_resep.png)
+![Detail Resep](docs/screenshots/detail_resep.png)
 
 ## Tambah Resep / Tambah Tugas
 
-![Tambah Resep](screenshots/tambah_resep.png)
+![Tambah Resep](docs/screenshots/tambah_resep.png)
 
 # Resep Masakan — Dokumentasi Singkat
 
