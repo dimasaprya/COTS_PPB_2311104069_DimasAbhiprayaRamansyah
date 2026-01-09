@@ -35,70 +35,104 @@ Once the images are in place, you can view them below. If the files are not pres
 
 ![Tambah Resep](screenshots/tambah_resep.png)
 
-# Project Structure & State Management
+# Dokumentasi Aplikasi "Resep Masakan"
 
-This document describes the repository layout and gives guidance for state management choices for this Flutter app.
+Dokumentasi ini berisi petunjuk singkat penggunaan repository, tempat menaruh screenshot, struktur folder yang direkomendasikan, dan saran state management untuk aplikasi Flutter "Resep Masakan".
 
-## Observed (recommended) folder structure
+> Catatan: untuk menampilkan screenshot pada README, silakan salin gambar screenshot (dari lampiran atau hasil capture) ke folder `docs/screenshots/` dengan nama file persis seperti yang direkomendasikan di bawah.
 
-From the current workspace (important folders under the repo root):
+## Nama file screenshot (letakkan di `docs/screenshots/`)
+
+- `docs/screenshots/dashboard.png` — layar Dashboard
+- `docs/screenshots/daftar_resep.png` — layar Daftar Resep
+- `docs/screenshots/detail_resep.png` — layar Detail Resep
+- `docs/screenshots/tambah_resep.png` — layar Tambah Resep / Tambah Tugas
+
+Format yang disarankan: PNG. Resolusi: mobile screenshot (pertahankan aspect ratio).
+
+---
+
+## Tampilan Aplikasi (Screenshots)
+
+Jika file sudah ditambahkan ke `docs/screenshots/`, gambar akan tampil di sini.
+
+### Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Daftar Resep
+
+![Daftar Resep](docs/screenshots/daftar_resep.png)
+
+### Detail Resep
+
+![Detail Resep](docs/screenshots/detail_resep.png)
+
+### Tambah Resep / Tambah Tugas
+
+![Tambah Resep](docs/screenshots/tambah_resep.png)
+
+---
+
+## Struktur Folder yang Disarankan
+
+Struktur saat ini sudah mengikuti pola umum Flutter. Berikut susunan yang disarankan beserta fungsinya:
 
 - `lib/`
-  - `main.dart` — app entry point
+  - `main.dart` — entry point aplikasi
   - `presentation/`
-    - `pages/` — screens (Dashboard, Daftar Resep, Detail, Tambah)
-    - `widgets/` — reusable UI widgets
-  - `models/` — domain models (e.g., `recipe.dart`)
-  - `services/` — small services for data access (e.g., `recipe_service.dart`)
-  - `design_system/` — colors, spacing, typography
+    - `pages/` — layar/screen (Dashboard, DaftarResep, DetailResep, TambahResep)
+    - `widgets/` — komponen UI yang dapat dipakai ulang
+  - `models/` — model domain (mis. `recipe.dart`)
+  - `services/` — service atau penyedia data (mis. `recipe_service.dart`)
+  - `design_system/` — warna, spacing, typography (mis. `colors.dart`, `spacing.dart`)
 
-This structure is suitable for small-to-medium Flutter apps and keeps UI, models, and data/service code separated.
+Struktur ini memisahkan tanggung jawab UI, data, dan model sehingga kode lebih mudah dipelihara.
 
-## Contract (for state management choices)
+## Rekomendasi State Management
 
-- Inputs: user interactions (add recipe, search, filter), data from local storage or in-memory lists.
-- Outputs: UI updates (lists, counts), navigation events, persisted data updates.
-- Error modes: invalid input validation, data persistence failure.
-- Success criteria: predictable UI updates, testable state, minimal boilerplate.
+Pilihan bebas, namun beberapa opsi yang sesuai:
 
-## Recommended state-management options
+1. Provider + ChangeNotifier
+   - Kelebihan: sederhana dan cepat diimplementasikan.
+   - Cocok untuk: aplikasi kecil atau kebutuhan state sederhana.
 
-1. Provider + ChangeNotifier (simple):
-   - Pros: easy to integrate, low boilerplate, good for apps with modest state.
-   - When to use: small apps, or if you only need a few ChangeNotifiers (e.g., RecipesListProvider, AddRecipeProvider).
+2. Riverpod
+   - Kelebihan: lebih mudah diuji, aman pada waktu kompilasi, cocok untuk aplikasi yang akan berkembang.
+   - Cocok untuk: proyek yang ingin lebih scalable dan testable.
 
-2. Riverpod (recommended for growth):
-   - Pros: compile-time safety, testability, scoped providers, and easy refactorability.
-   - When to use: if you expect the app to scale, prefer decoupled providers, or want easier unit testing.
+3. Bloc / Cubit
+   - Kelebihan: pemisahan event/state yang jelas, bagus untuk alur kompleks.
+   - Cocok untuk: aplikasi besar atau alur bisnis rumit.
 
-3. Bloc (cubit/bloc) (if you need more structure):
-   - Pros: explicit events & states, good for complex flows.
-   - When to use: complex apps with many asynchronous flows and strict separation.
+Rekomendasi praktis: gunakan Provider untuk pengembangan cepat; gunakan Riverpod jika ingin struktur yang lebih baik dan kemudahan testing.
 
-Given the current code layout (with a small `services/recipe_service.dart`), Provider/ChangeNotifier or Riverpod are both good fits. For quick development, Provider is simplest; for future-proofing and testability, use Riverpod.
+## Kontrak Singkat (Inputs / Outputs / Error)
 
-## Suggested minimal implementation (Provider example)
+- Inputs: aksi pengguna (tambah resep, cari, filter), data lokal.
+- Outputs: update UI (daftar & jumlah resep), navigasi, penyimpanan data.
+- Error mode: validasi input, kegagalan penyimpanan/pengambilan data.
 
-- Create `lib/presentation/providers/recipes_provider.dart`:
-  - Holds a list of `Recipe` models.
-  - Exposes methods: `loadRecipes()`, `addRecipe(Recipe)`, `deleteRecipe(id)`, `filterByCategory(String)`.
-  - Use `notifyListeners()` when the list or counts change.
+## Implementasi Minimal (contoh Provider)
 
-- Wire provider at top-level in `main.dart` using `MultiProvider`.
+- Tambahkan file `lib/presentation/providers/recipes_provider.dart` yang:
+  - Menyimpan daftar `Recipe`.
+  - Menyediakan metode: `loadRecipes()`, `addRecipe(Recipe)`, `deleteRecipe(id)`, `filterByCategory(String)`.
+  - Memanggil `notifyListeners()` saat data berubah.
+- Daftarkan provider di `main.dart` (contoh: `MultiProvider`).
 
-## Edge cases to handle
+## Edge cases yang perlu diperhatikan
 
-- Empty lists (show a friendly empty state)
-- Large lists (use lazy ListView, pagination if needed)
-- Concurrent edits (prevent double-submit)
-- Data validation (title required, category required)
+- Daftar kosong (tampilkan empty state yang ramah)
+- Daftar panjang (gunakan ListView.builder / pagination)
+- Aksi ganda (hindari double submit)
+- Validasi input (judul & kategori wajib)
 
-## Testing guidance
+## Testing rekomendasi singkat
 
-- Unit test `recipes_provider.dart` for add/delete/filter behavior.
-- Widget tests for `Daftar Resep` list and `Detail Resep` view to ensure UI binds correctly to provider state.
+- Unit test untuk provider (tambah/hapus/filter).
+- Widget test untuk `Daftar Resep` dan `Detail Resep`.
 
-## Next steps / low-risk improvements
+---
 
-- Add `lib/presentation/providers/` and implement a `RecipesProvider`/`RecipesNotifier`.
-- Add small unit tests for the provider behavior.
+Jika Anda mau, saya dapat menambahkan file placeholder di `docs/screenshots/` (mis. `README.md`) atau menyiapkan `lib/presentation/providers/recipes_provider.dart` contoh. Beritahu saya langkah berikutnya yang diinginkan.
